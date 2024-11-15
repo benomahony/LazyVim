@@ -20,13 +20,4 @@ return {
       table.insert(opts.auto_brackets, "htmx")
     end,
   },
-  {
-    "stevearc/conform.nvim",
-    optional = true,
-    opts = {
-      formatters_by_ft = {
-        nix = { "htmlbeautifier" },
-      },
-    },
-  },
 }
