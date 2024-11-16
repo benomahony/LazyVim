@@ -6,7 +6,7 @@ return {
   end,
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = { ensure_installed = { "htmx", "html" } },
+    opts = { ensure_installed = { "htmx" } },
   },
   {
     "neovim/nvim-lspconfig",
