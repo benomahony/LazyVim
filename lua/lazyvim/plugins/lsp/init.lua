@@ -6,8 +6,10 @@ return {
     dependencies = {
       "mason.nvim",
       { "williamboman/mason-lspconfig.nvim", config = function() end },
+      { "rachartier/tiny-inline-diagnostic.nvim", optional = true, opts = {} },
     },
     opts = function()
+      local has_tiny_diagnostic = pcall(require, "tiny-inline-diagnostic")
       ---@class PluginLspOpts
       local ret = {
         -- options for vim.diagnostic.config()
@@ -15,14 +17,16 @@ return {
         diagnostics = {
           underline = true,
           update_in_insert = false,
-          virtual_text = {
-            spacing = 4,
-            source = "if_many",
-            prefix = "●",
-            -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-            -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-            -- prefix = "icons",
-          },
+          virtual_text = not has_tiny_diagnostic
+              and {
+                spacing = 4,
+                source = "if_many",
+                prefix = "●",
+                -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+                -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+                -- prefix = "icons",
+              }
+            or false,
           severity_sort = true,
           signs = {
             text = {
@@ -295,5 +299,13 @@ return {
         end
       end)
     end,
+  },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "LspAttach",
+    enabled = true,
+    opts = {
+      -- Add default options here
+    },
   },
 }
